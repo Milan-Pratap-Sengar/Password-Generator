@@ -140,10 +140,21 @@ slider.addEventListener('input',(eve)=>{
 // call the copycontent function on clicking copy button
 copyButton.addEventListener("click",()=>{
     //if passwordLength ==0 then there is nothing to copy
-    if(passwordLength!=0){
-        copycontent();
+    if(password===""){
+        //it means there is no password to copy,hence it will show some error kind of properties.
+        copyButton.style.cssText="border:solid 2px red; color:red; outline:none";
+        setTimeout(() => {
+            copyButton.style.cssText="border:none; color:none"; //because there is no text color added to it."none" means by default.
+        }, 200);
     }
-    
+    else{
+        copycontent();
+        //to display "copied" notification
+        copiedNotification.style.display="unset";//it will remove/unset the css property {display:none} and make the element visible.
+        setTimeout(() => {
+            copiedNotification.style.display="none";//after 0,2 seconds,it will again make it hidden.
+        }, 500);
+    }
 })
 
 
@@ -185,6 +196,15 @@ generateButton.addEventListener('click',()=>{
         setValues();
     }
 
+    if(totalchecked==0){
+        //when there is no checkbox marked,then it will not generate any password.hence,it will show some error kind of properties
+        generateButton.style.cssText="border:solid 3px red; color:red; outline:none";
+        setTimeout(() => {
+            generateButton.style.cssText="border:none; color:white";//it will revert the properties after 0.2 seconds
+        }, 200);
+        colourIndicator.style.backgroundColor="white"; //suppose you generate 1 password of good strength(i.e indicator=green) and then try to generate password of zero length(i.e. no checkbox marked),still here,the indicator is green.Hence,to revert it back we will use this code.
+        colourIndicator.style.boxShadow="0px 0px 12px 0px white";
+    }
     //now, our main logic begins to generate a random password.
     password="" //we are removing the previously generated password on clicking on button.
 
@@ -231,3 +251,4 @@ function shufflePassword(passwordArray) {
     passwordArray.forEach((ele) => str += ele);
     return str;
 }
+
